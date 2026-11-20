@@ -14,7 +14,7 @@ table{width:100%;border-collapse:collapse;font-size:13px}td,th{padding:8px;borde
 <div class="box"><h2>Feedbacks e sugestões</h2><div style="overflow:auto"><table id="tf"></table></div></div></div></div>
 <script>
 // Cole aqui a URL e a chave PÚBLICA (anon) do seu projeto Supabase. Nunca use a chave service_role.
-const SB_URL='COLE_AQUI_A_URL_DO_SUPABASE', SB_KEY='COLE_AQUI_A_CHAVE_ANON';
+const SB_URL='https://kcumbmwjcubsfswlpuyd.supabase.co', SB_KEY='COLE_AQUI_A_CHAVE_ANON';
 let tok=sessionStorage.getItem('adm_tok');
 const $=i=>document.getElementById(i),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 if(SB_URL.startsWith('COLE')){$('cfg').textContent='Falta configurar a URL e a chave pública do Supabase no topo do script deste arquivo.'}

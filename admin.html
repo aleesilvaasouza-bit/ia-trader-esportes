@@ -11,6 +11,7 @@ table{width:100%;border-collapse:collapse;font-size:13px}td,th{padding:8px;borde
 <div id="pn" style="display:none"><button onclick="logout()">SAIR</button> <button onclick="load()">ATUALIZAR</button>
 <div class="g" id="cnt"></div>
 <div class="box"><h2>Usuários</h2><div style="overflow:auto"><table id="tu"></table></div></div>
+<div class="box"><h2>Enviar anúncio</h2><input id="at" placeholder="Título"><input id="am" placeholder="Mensagem"><button onclick="sendAnn()">PUBLICAR</button> <span id="ar" class="er"></span><table id="ta"></table></div>
 <div class="box"><h2>Feedbacks e sugestões</h2><div style="overflow:auto"><table id="tf"></table></div></div></div></div>
 <script>
 // Cole aqui a URL e a chave PÚBLICA (anon) do seu projeto Supabase. Nunca use a chave service_role.
@@ -22,6 +23,8 @@ async function api(path,opt={}){const r=await fetch(SB_URL+path,{...opt,headers:
 async function login(){$('er').textContent='';try{const r=await api('/auth/v1/token?grant_type=password',{method:'POST',body:JSON.stringify({email:$('e').value.trim(),password:$('p').value})});tok=(await r.json()).access_token;sessionStorage.setItem('adm_tok',tok);$('p').value='';await load()}catch(x){$('er').textContent='Login inválido.'}}
 function logout(){sessionStorage.removeItem('adm_tok');tok=null;location.reload()}
 async function q(t,sel){return (await api('/rest/v1/'+t+'?select='+sel+'&order=created_at.desc&limit=500')).json()}
+async function sendAnn(){try{await api('/rest/v1/announcements',{method:'POST',body:JSON.stringify({title:$('at').value.trim(),message:$('am').value.trim()})});$('at').value='';$('am').value='';$('ar').textContent='Publicado.';load()}catch(x){$('ar').textContent='Erro ao publicar.'}}
+async function delAnn(id){await api('/rest/v1/announcements?id=eq.'+id,{method:'DELETE'});load()}
 async function load(){try{
 const [pr,fb,an,co,ad]=await Promise.all([q('profiles','*'),q('feedback','*'),q('analysis_history','id,created_at'),api('/rest/v1/user_consents?select=*').then(r=>r.json()),api('/rest/v1/admin_users?select=user_id').then(r=>r.json())]);
 if(!ad.length)throw new Error('403');
@@ -29,6 +32,7 @@ $('lg').style.display='none';$('pn').style.display='block';
 const em={};co.forEach(c=>em[c.user_id]=c);
 $('cnt').innerHTML=[['Usuários',pr.length],['Feedbacks',fb.length],['Análises',an.length],['Aceites de termos',co.length]].map(a=>`<div class="box"><div class="n">${a[1]}</div>${a[0]}</div>`).join('');
 $('tu').innerHTML='<tr><th>Usuário</th><th>Nome</th><th>E-mail</th><th>Telefone</th><th>Criado em</th><th>Cookies/anúncios</th></tr>'+pr.map(p=>`<tr><td>${esc(p.username)}</td><td>${esc(p.display_name)}</td><td>${esc((em[p.id]||{}).email)}</td><td>${esc(p.phone)}</td><td>${new Date(p.created_at).toLocaleString('pt-BR')}</td><td>${(em[p.id]||{}).ads_cookies?'Sim':'Não'}</td></tr>`).join('');
+try{const an2=await q('announcements','*');$('ta').innerHTML='<tr><th>Data</th><th>Título</th><th>Mensagem</th><th></th></tr>'+an2.map(a=>`<tr><td>${new Date(a.created_at).toLocaleString('pt-BR')}</td><td>${esc(a.title)}</td><td>${esc(a.message)}</td><td><button onclick="delAnn('${esc(a.id)}')">Apagar</button></td></tr>`).join('')}catch(e){}
 $('tf').innerHTML='<tr><th>Data</th><th>Tipo</th><th>Mensagem</th></tr>'+fb.map(f=>`<tr><td>${new Date(f.created_at).toLocaleString('pt-BR')}</td><td>${esc(f.category)}</td><td>${esc(f.message)}</td></tr>`).join('');
 }catch(x){sessionStorage.removeItem('adm_tok');tok=null;$('lg').style.display='block';$('pn').style.display='none';$('er').textContent='Acesso negado: esta conta não é administradora.'}}
 if(tok&&!SB_URL.startsWith('COLE'))load();

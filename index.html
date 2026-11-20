@@ -1,18 +1,51 @@
 <!doctype html>
-<html lang="pt-BR">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>IA TRADER ESPORTES</title>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>IA TRADER ESPORTES</title>
 <style>
-body{margin:0;font-family:system-ui,sans-serif;background:#0b1220;color:#e5e7eb;display:grid;place-items:center;min-height:100vh;text-align:center;padding:24px}
-h1{margin:0 0 8px}p{color:#94a3b8;max-width:480px}
-</style>
-</head>
-<body>
-<main>
-<h1>IA TRADER ESPORTES</h1>
-<p>Página inicial restaurada. O código original do app (login e busca de jogos) não está no projeto e precisa ser reenviado.</p>
-</main>
-</body>
-</html>
+*{box-sizing:border-box}body{margin:0;font-family:Roboto,system-ui,sans-serif;color:#fff;background:radial-gradient(circle at 20% 0,#2b1a6e,#0a0b24 50%,#06061a);min-height:100vh;padding-bottom:80px}
+header{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:14px;background:#0b0d2acc}
+.logo{width:26px;height:36px;border:2px solid #fff;border-radius:6px;display:grid;place-items:center;font-weight:900}
+header small{display:block;color:#cfd3ff;font-size:12px}header b{color:#9fd0ff;font-size:12px;letter-spacing:1px}
+.btn{border:1px solid #4a4f9a;background:#14173f;color:#fff;border-radius:12px;padding:8px 12px;font-weight:700;font-size:12px}
+.btn.p{background:linear-gradient(90deg,#2f7bff,#a24bff);border:0}
+.hero{margin:14px;padding:20px;border:1px solid #3a4090;border-radius:22px;background:linear-gradient(160deg,#1a1f5a,#0d1030)}
+.hero small{color:#9fd0ff;font-weight:700;font-size:11px;letter-spacing:1px}.hero h1{font-size:34px;margin:12px 0}.hero p{color:#cfd3ff}
+.hero .btn{width:100%;padding:16px;font-size:14px;letter-spacing:1px}
+h2{margin:20px 14px 4px;font-size:20px}.sub{margin:0 14px 12px;color:#aab;font-size:12px}
+.card{margin:14px;padding:16px;border:1px solid #3a4090;border-left:3px solid #a24bff;border-radius:18px;background:linear-gradient(160deg,#171b50,#0c0e2c)}
+.top{display:flex;justify-content:space-between;color:#bcc;font-size:12px;gap:8px}
+.card h3{font-size:19px;margin:10px 0}.row{display:flex;justify-content:space-between;align-items:center}
+.tag{border:1px solid #5a74d0;border-radius:12px;padding:10px 14px;font-weight:700;background:#1a2a6a}
+.pct{font-size:28px;font-weight:800;color:#c9b8ff}
+.card a{display:block;margin-top:14px;color:#b9c4ff;font-size:13px;font-weight:700;border-bottom:1px solid #4a4f9a;padding-bottom:4px}
+nav{position:fixed;bottom:0;left:0;right:0;display:flex;justify-content:space-around;background:#0a0c28;padding:12px;font-size:12px;color:#aab;border-top:1px solid #222a60}
+.help{position:fixed;right:12px;bottom:76px;background:linear-gradient(90deg,#2f7bff,#a24bff);border-radius:20px;padding:12px 16px;font-weight:700}
+</style></head><body>
+<header><div class="logo">T</div><div><b>IA TRADER ESPORTES</b><small>Inteligência esportiva • Dados e estatísticas do futebol</small></div><span class="btn p" id="bc" onclick="openM('c')">CADASTRAR</span><span class="btn" id="be" onclick="openM('e')">ENTRAR</span></header>
+<style>.mi{width:100%;padding:14px;margin:4px 0 12px;border-radius:14px;border:1px solid #3a4090;background:#0b0e30;color:#fff;font-size:14px}.ml{font-size:12px;color:#cfd3ff}#modal{overflow:auto;padding:14px}#modal .hero{margin:auto}</style>
+<div id="modal" style="display:none;position:fixed;inset:0;background:#000c;z-index:9;place-items:center"><div class="hero" style="max-width:400px;width:100%"><small>IA / TRADER ESPORTES</small><div style="display:flex;gap:10px;align-items:center;margin-top:10px"><div class="logo">★</div><div><b style="font-size:18px;letter-spacing:1px">IA TRADER ESPORTES</b><small style="display:block;color:#cfd3ff;font-size:12px">Inteligência esportiva • Dados e estatísticas do futebol</small></div></div><h2 id="mt" style="margin:16px 0 6px;text-align:center;font-size:26px">Entre para o IA Trader Esportes</h2><p style="text-align:center;font-size:13px">Estatísticas, leitura de partidas e análise esportiva em uma experiência moderna.</p>
+<div id="cf"><label class="ml">Nome de usuário</label><input id="us" class="mi"><label class="ml">Nome completo</label><input id="nm" class="mi"></div>
+<label class="ml" id="eml">E-mail</label><input id="em" class="mi">
+<div id="cf2"><label class="ml">Telefone / WhatsApp</label><input id="tl" type="tel" class="mi"></div>
+<div id="cf3" style="font-size:12px;color:#cfd3ff;line-height:1.4"><label style="display:flex;gap:8px;margin-bottom:8px"><input type="checkbox" id="k1"><span>Declaro que sou maior de 18 anos.</span></label><label style="display:flex;gap:8px;margin-bottom:8px"><input type="checkbox" id="k2"><span>Aceito os Termos de Uso.</span></label><label style="display:flex;gap:8px;margin-bottom:8px"><input type="checkbox" id="k3"><span>Aceito cookies, inclusive de anúncios.</span></label><label style="display:flex;gap:8px;margin-bottom:12px"><input type="checkbox" id="k4"><span>Estou ciente de que haverá anúncios dentro do app.</span></label></div>
+<label class="ml">Senha</label><input id="pw" type="password" placeholder="Mínimo de 8 caracteres" class="mi"><p id="er" style="color:#f88;margin:0 0 8px;font-size:13px"></p><button id="sb" class="btn p" style="width:100%;padding:16px;letter-spacing:1px" onclick="sub()">CRIAR CONTA E ENTRAR</button><p style="text-align:center;font-size:13px"><span id="sw1">Já tem cadastro?</span> <a href="#" id="sw" style="color:#b9c4ff" onclick="openM(mode=='c'?'e':'c');return false">Fazer login</a></p><button class="btn" style="width:100%" onclick="modal.style.display='none'">FECHAR</button></div></div>
+<section class="hero"><small>IA TRADER ESPORTES • RADAR DE FUTEBOL</small><h1>Inteligência para ler o jogo.</h1><p>Dados históricos, indicadores e análises de partidas em um só painel.</p><button class="btn p" onclick="load()">↻ ATUALIZAR ANÁLISE</button></section>
+<h2>Seleção do dia</h2><p class="sub" id="meta"></p><main id="list"></main>
+<div class="help">? Ajuda</div>
+<nav><span>Início</span><span>Radar</span><span>Times</span><span>Informações</span></nav>
+<script>
+const jogos=[["EFL League One","17:00","Barnsley","Sheffield Wednesday",100],["Australian A-League Women","02:50","Western Sydney","Wellington Phoenix",75],["National League","20:45","Southend United","Boreham Wood",100],["Eerste Divisie","16:00","FC Den Bosch","VVV-Venlo",100]];
+function load(){const h=new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+document.getElementById('meta').textContent=jogos.length+' selecionadas (meta: até 6 acima de 70%) • análise: '+h;
+document.getElementById('list').innerHTML=jogos.map(j=>`<div class="card"><div class="top"><span>${j[0]}</span><span>Jogo: <b>${j[1]} (Brasília)</b></span></div><h3>${j[2]} × ${j[3]}</h3><div class="row"><span class="tag">✦ Mais de 1.5 gols</span><span class="pct">${j[4]}%</span></div><a>Saiba mais sobre este indicador</a><a>Comparar últimos 5 jogos e confrontos diretos</a></div>`).join('')}
+let mode='c';
+function openM(m){mode=m;const c=m=='c';cf.style.display=cf2.style.display=cf3.style.display=c?'block':'none';eml.textContent=c?'E-mail':'E-mail ou telefone';if(!c)em.value=localStorage.getItem('lastid')||'';sb.textContent=c?'CRIAR CONTA E ENTRAR':'ENTRAR';sw.textContent=c?'Fazer login':'Criar conta';sw1.textContent=c?'Já tem cadastro?':'Ainda não tem conta?';er.textContent='';modal.style.display='grid'}
+function sub(){const u=JSON.parse(localStorage.getItem('users')||'{}'),raw=em.value.trim().toLowerCase(),p=pw.value;let e=raw;
+if(mode!='c'&&!raw.includes('@')){e=localStorage.getItem('ph_'+raw.replace(/\D/g,''))||''}
+if(mode=='c'&&!raw.includes('@')||!e||p.length<8){er.textContent='E-mail ou telefone válido e senha de 8+ caracteres.';return}
+if(mode=='c'&&!(k1.checked&&k2.checked&&k3.checked&&k4.checked)){er.textContent='Aceite todas as opções (18 anos, termos, cookies e anúncios).';return}
+if(mode=='c'){if(!us.value.trim()||!nm.value.trim()||!tl.value.trim()){er.textContent='Preencha todos os campos.';return}if(u[e]){er.textContent='E-mail já cadastrado.';return}localStorage.setItem('p_'+e,JSON.stringify({us:us.value,nm:nm.value,tl:tl.value}));u[e]=btoa(p);localStorage.setItem('ph_'+tl.value.replace(/\D/g,''),e);localStorage.setItem('users',JSON.stringify(u))}
+else if(u[e]!==btoa(p)){er.textContent='E-mail ou senha incorretos.';return}
+localStorage.setItem('sess',e);localStorage.setItem('lastid',raw);modal.style.display='none';sess()}
+function sess(){const e=localStorage.getItem('sess');if(e){bc.style.display='none';be.textContent='SAIR ('+e.split('@')[0]+')';be.onclick=()=>{localStorage.removeItem('sess');location.reload()}}}
+sess();load();
+</script></body></html>

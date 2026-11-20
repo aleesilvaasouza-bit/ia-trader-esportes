@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Admin • IA TRADER ESPORTES</title>
+<style>*{box-sizing:border-box}body{margin:0;font-family:system-ui,sans-serif;color:#fff;background:#0a0b24;padding:14px}
+.c{max-width:900px;margin:auto}.box{border:1px solid #3a4090;border-radius:16px;padding:16px;background:#111446;margin:12px 0}
+input{width:100%;padding:12px;margin:6px 0 10px;border-radius:10px;border:1px solid #3a4090;background:#0b0e30;color:#fff}
+button{border:0;border-radius:10px;padding:10px 14px;font-weight:700;color:#fff;background:linear-gradient(90deg,#2f7bff,#a24bff)}
+.g{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}.n{font-size:30px;font-weight:800;color:#c9b8ff}
+table{width:100%;border-collapse:collapse;font-size:13px}td,th{padding:8px;border-bottom:1px solid #2a2f70;text-align:left;word-break:break-word}.er{color:#f88}</style></head><body><div class="c">
+<h1>Área administrativa</h1><p id="cfg" class="er"></p>
+<div id="lg" class="box"><label>E-mail do administrador</label><input id="e" type="email"><label>Senha</label><input id="p" type="password"><button onclick="login()">ENTRAR</button> <span id="er" class="er"></span></div>
+<div id="pn" style="display:none"><button onclick="logout()">SAIR</button> <button onclick="load()">ATUALIZAR</button>
+<div class="g" id="cnt"></div>
+<div class="box"><h2>Usuários</h2><div style="overflow:auto"><table id="tu"></table></div></div>
+<div class="box"><h2>Feedbacks e sugestões</h2><div style="overflow:auto"><table id="tf"></table></div></div></div></div>
+<script>
+// Cole aqui a URL e a chave PÚBLICA (anon) do seu projeto Supabase. Nunca use a chave service_role.
+const SB_URL='COLE_AQUI_A_URL_DO_SUPABASE', SB_KEY='COLE_AQUI_A_CHAVE_ANON';
+let tok=sessionStorage.getItem('adm_tok');
+const $=i=>document.getElementById(i),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+if(SB_URL.startsWith('COLE')){$('cfg').textContent='Falta configurar a URL e a chave pública do Supabase no topo do script deste arquivo.'}
+async function api(path,opt={}){const r=await fetch(SB_URL+path,{...opt,headers:{apikey:SB_KEY,Authorization:'Bearer '+(tok||SB_KEY),'Content-Type':'application/json',...(opt.headers||{})}});if(!r.ok)throw new Error(r.status);return r}
+async function login(){$('er').textContent='';try{const r=await api('/auth/v1/token?grant_type=password',{method:'POST',body:JSON.stringify({email:$('e').value.trim(),password:$('p').value})});tok=(await r.json()).access_token;sessionStorage.setItem('adm_tok',tok);$('p').value='';await load()}catch(x){$('er').textContent='Login inválido.'}}
+function logout(){sessionStorage.removeItem('adm_tok');tok=null;location.reload()}
+async function q(t,sel){return (await api('/rest/v1/'+t+'?select='+sel+'&order=created_at.desc&limit=500')).json()}
+async function load(){try{
+const [pr,fb,an,co,ad]=await Promise.all([q('profiles','*'),q('feedback','*'),q('analysis_history','id,created_at'),api('/rest/v1/user_consents?select=*').then(r=>r.json()),api('/rest/v1/admin_users?select=user_id').then(r=>r.json())]);
+if(!ad.length)throw new Error('403');
+$('lg').style.display='none';$('pn').style.display='block';
+const em={};co.forEach(c=>em[c.user_id]=c);
+$('cnt').innerHTML=[['Usuários',pr.length],['Feedbacks',fb.length],['Análises',an.length],['Aceites de termos',co.length]].map(a=>`<div class="box"><div class="n">${a[1]}</div>${a[0]}</div>`).join('');
+$('tu').innerHTML='<tr><th>Usuário</th><th>Nome</th><th>E-mail</th><th>Telefone</th><th>Criado em</th><th>Cookies/anúncios</th></tr>'+pr.map(p=>`<tr><td>${esc(p.username)}</td><td>${esc(p.display_name)}</td><td>${esc((em[p.id]||{}).email)}</td><td>${esc(p.phone)}</td><td>${new Date(p.created_at).toLocaleString('pt-BR')}</td><td>${(em[p.id]||{}).ads_cookies?'Sim':'Não'}</td></tr>`).join('');
+$('tf').innerHTML='<tr><th>Data</th><th>Tipo</th><th>Mensagem</th></tr>'+fb.map(f=>`<tr><td>${new Date(f.created_at).toLocaleString('pt-BR')}</td><td>${esc(f.category)}</td><td>${esc(f.message)}</td></tr>`).join('');
+}catch(x){sessionStorage.removeItem('adm_tok');tok=null;$('lg').style.display='block';$('pn').style.display='none';$('er').textContent='Acesso negado: esta conta não é administradora.'}}
+if(tok&&!SB_URL.startsWith('COLE'))load();
+</script></body></html>

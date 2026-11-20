@@ -85,7 +85,7 @@ if(mode=='c'&&!(k1.checked&&k2.checked&&k3.checked&&k4.checked)){er.textContent=
 if(mode=='c'){if(!us.value.trim()||!nm.value.trim()||!tl.value.trim()){er.textContent='Preencha todos os campos.';return}if(u[e]){er.textContent='E-mail já cadastrado.';return}localStorage.setItem('p_'+e,JSON.stringify({us:us.value,nm:nm.value,tl:tl.value}));u[e]=btoa(p);localStorage.setItem('ph_'+tl.value.replace(/\D/g,''),e);localStorage.setItem('users',JSON.stringify(u))}
 else if(u[e]!==btoa(p)){er.textContent='E-mail ou senha incorretos.';return}
 localStorage.setItem('sess',e);localStorage.setItem('lastid',raw);modal.style.display='none';document.body.classList.remove('lock');sess();load()}
-function sess(){const e=localStorage.getItem('sess');if(e){bc.style.display='none';be.textContent='SAIR ('+e.split('@')[0]+')';be.onclick=()=>{localStorage.removeItem('sess');location.reload()}}}
+function sess(){const e=localStorage.getItem('sess');if(e==='aleesilvaasouza@gmail.com'&&!document.getElementById('admlk')){const a=document.createElement('a');a.id='admlk';a.href='admin.html';a.textContent='⚙️ Painel Admin';a.style.cssText='position:fixed;top:8px;right:8px;z-index:99;background:#a24bff;color:#fff;padding:8px 12px;border-radius:10px;font-weight:700;font-size:13px;text-decoration:none';document.body.appendChild(a)}if(e){bc.style.display='none';be.textContent='SAIR ('+e.split('@')[0]+')';be.onclick=()=>{localStorage.removeItem('sess');location.reload()}}}
 sess();load();ult();setInterval(ult,60000);
 if(localStorage.getItem('sess')){document.body.classList.remove('lock')}
 if(!localStorage.getItem('sess')){document.body.classList.add('lock');openM(Object.keys(JSON.parse(localStorage.getItem('users')||'{}')).length?'e':'c')}
